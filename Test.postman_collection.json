@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "cab41284-4359-4b02-a625-7563aea1866d",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16108648"
+	},
+	"item": [
+		{
+			"name": "user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Find username\", function () {\r",
+							"    const user = pm.variables.get('username')\r",
+							"    const jsonData = pm.response.json();\r",
+							"    const array = jsonData.find(m => m.username === user );   \r",
+							"    pm.expect(array.username).to.eql(user);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}users",
+					"host": [
+						"{{url}}users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Assert response Body\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.userId).to.eql(parseInt(pm.variables.get('userId')));\r",
+							"    pm.expect(jsonData.title).to.eq(pm.variables.get(\"title\"));\r",
+							"    pm.expect(jsonData.body).to.eql(pm.variables.get(\"body\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": {{userId}},\r\n    \"title\": \"{{title}}\",\r\n    \"body\": \"{{body}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}posts",
+					"host": [
+						"{{url}}posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "timeout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time should be less than 100ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}photos",
+					"host": [
+						"{{url}}photos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": "55",
+			"type": "string"
+		},
+		{
+			"key": "title",
+			"value": "foo",
+			"type": "string"
+		},
+		{
+			"key": "body",
+			"value": "baa",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "Samantha",
+			"type": "string"
+		}
+	]
+}
